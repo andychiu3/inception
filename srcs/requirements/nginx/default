@@ -1,0 +1,30 @@
+server {
+	# listen 80 default_server;
+	# listen [::]:80 default_server;
+
+	listen 443 ssl default_server; # IPv4
+	listen [::]:443 ssl default_server; # IPv6
+
+	# not in template but needed
+	server_name achiu.42.fr;
+	ssl_certificate     /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+	ssl_protocols TLSv1.2 TLSv1.3;
+
+	root /var/www/html;
+	index index.php index.html index.htm index.nginx-debian.html;
+	location / {
+		# try_files $uri $uri/ /index.php?$args;
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+   		fastcgi_pass wp-php:9000;
+    	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	}
+}
