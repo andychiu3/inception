@@ -6,7 +6,7 @@ server {
 	listen [::]:443 ssl default_server; # IPv6
 
 	# not in template but needed
-	server_name achiu.42.fr;
+	server_name ${DOMAIN_NAME};
 	ssl_certificate     /etc/ssl/certs/nginx-selfsigned.crt;
     ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 	ssl_protocols TLSv1.2 TLSv1.3;
@@ -20,7 +20,7 @@ server {
 
 	location ~ \.php$ {
 		include snippets/fastcgi-php.conf;
-   		fastcgi_pass wp-php:9000;
+   		fastcgi_pass wordpress:9000;
     	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 	#
 	#	# With php-fpm (or other unix sockets):

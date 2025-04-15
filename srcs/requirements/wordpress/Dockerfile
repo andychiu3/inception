@@ -11,7 +11,7 @@ RUN  apt-get update \
 # docker cp /etc/php/7.4/fpm/pool.d/www.conf ./requirements/wordpress/.
 # revise /requirements/wordpress/www.conf as we want the setting
 # COPY back then
-COPY  www.conf /etc/php/7.4/fpm/pool.d/
+COPY  /conf/www.conf /etc/php/7.4/fpm/pool.d/
 
 # RUN  wget https://wordpress.org/latest.tar.gz \
 #   && tar -xzf latest.tar.gz -C /var/www/ \
@@ -25,7 +25,7 @@ COPY  www.conf /etc/php/7.4/fpm/pool.d/
 RUN mkdir -p /run/php \
 && chown www-data:www-data /run/php
 
-COPY  script.sh .
+COPY  tools/script.sh .
 RUN  chmod +x script.sh
 # EXPOSE  9000
 
