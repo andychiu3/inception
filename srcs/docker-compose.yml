@@ -7,40 +7,43 @@ services:
     depends_on:
       - wordpress
     ports:
-      # - "8080:80"  # for http
       - "443:443" # for https
     volumes:
-      - wordpress-volume:/var/www/html
+      -  wordpress-volume:/var/www/html
     networks:
       - inception
+    restart:  always
 
   wordpress:
     build:  requirements/wordpress/.
-    env_file:  .env
+    env_file:
+      - db.env
+      - .env
     container_name:  wordpress
     depends_on:
       - mariadb
-        # condition:  service_healthy
+        # condition:  service_healthy # not for every version
     volumes:
-      - wordpress-volume:/var/www/html
+      -  wordpress-volume:/var/www/html
     networks:
       - inception
+    restart:  always
   
   mariadb:
     build:  requirements/mariadb/.
-    env_file:  .env
+    env_file:  db.env
     container_name:  mariadb
     volumes:
-      - mariadb-volume:/var/lib/mysql
+      -  mariadb-volume:/var/lib/mysql
     networks:
        - inception
-    # healthcheck:
+    # healthcheck: # not for every version
     #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
     #   interval: 10s
     #   retries: 5
     restart:  always
 
-# named volume not only bind mount
+# named volume with bind mount
 volumes:
   wordpress-volume:
     name:  wordpress-volume
@@ -50,7 +53,7 @@ volumes:
       o:  bind
       device:  ${HOME_PATH}/data/wordpress-volume
   mariadb-volume:
-    name:  mariadb-volume
+    name: mariadb-volume
     driver:  local
     driver_opts:
       type:  none

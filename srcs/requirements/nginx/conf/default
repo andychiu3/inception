@@ -1,12 +1,10 @@
 server {
-	# listen 80 default_server;
-	# listen [::]:80 default_server;
+	listen 443 ssl; # IPv4
+	listen [::]:443 ssl; # IPv6
 
-	listen 443 ssl default_server; # IPv4
-	listen [::]:443 ssl default_server; # IPv6
-
-	# not in template but needed
 	server_name ${DOMAIN_NAME};
+
+	# not in template but needed for ssl/tls
 	ssl_certificate     /etc/ssl/certs/nginx-selfsigned.crt;
     ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 	ssl_protocols TLSv1.2 TLSv1.3;
