@@ -18,7 +18,7 @@ services:
     build:  requirements/wordpress/.
     env_file:
       - db.env
-      - .env
+      - wordpress.env
     container_name:  wordpress
     depends_on:
       - mariadb

@@ -9,9 +9,11 @@ RUN  apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # docker cp /etc/php/7.4/fpm/pool.d/www.conf ./requirements/wordpress/.
-# revise /requirements/wordpress/www.conf as we want the setting
+# revise /requirements/wordpress/www.conf as we want changing the setting
 # COPY back then
 COPY  /conf/www.conf /etc/php/7.4/fpm/pool.d/
+
+# WORKDIR /var/www/html
 
 # RUN  wget https://wordpress.org/latest.tar.gz \
 #   && tar -xzf latest.tar.gz -C /var/www/ \

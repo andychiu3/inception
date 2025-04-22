@@ -16,19 +16,20 @@ while [ ! -d /var/lib/mysql ]; do
   sleep 10
 done
 
+# bind mount or named volume will get this ready logically
 echo -e "checking /var/lib/mysql"
 ls -la /var/lib/mysql
 echo
 
 INIT_MARKER=/var/lib/mysql/.init_done
 
-if [ -d ${INIT_MARKER} ]
+if [ -f ${INIT_MARKER} ]
 then
 	echo -e "-> db is ready\n"
 else
 	echo "Initializing DB..."
 	chown -R mysql:mysql /var/lib/mysql
-	mysql_install_db \
+	mariadb-install-db \
 		--datadir=/var/lib/mysql \
 		--user=mysql > /dev/null
 	
